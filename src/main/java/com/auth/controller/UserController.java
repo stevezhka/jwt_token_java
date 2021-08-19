@@ -1,5 +1,6 @@
 package com.auth.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.auth.entity.User;
 import com.auth.service.UserService;
 import com.auth.utils.JWTUtils;
@@ -24,6 +25,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/index")
+    public String index() {
+        return "Hello World!";
+    }
+
     @GetMapping("/user/login")
     public Map<String, Object> login(User user) {
         log.info("Username: [{}]", user.getName());
@@ -45,38 +51,32 @@ public class UserController {
         return map;
     }
 
-    @PostMapping("/token/verify")
-    public Map<String, Object> verify(String token) {
-        log.info("Received Token: [{}]", token);
+    @PostMapping("/token/encode")
+    public Map<String, Object> encode(HttpServletRequest request) {
+        String name = request.getHeader("name");
+        log.info("Received Username: [{}]", name);
         Map<String, Object> map = new HashMap<>();
         try {
-            DecodedJWT decodedJWT = JWTUtils.verifyToken(token);
+            if (StringUtils.isEmpty(name)) throw new Exception ("name is null");
+            // get token
+            Map<String, String> payload = new HashMap<>();
+            payload.put("name", name);
+            String token = JWTUtils.generateToken(payload);
             map.put("state", true);
-            map.put("name", decodedJWT.getClaim("name").asString());
-            map.put("msg", "token is OK");
+            map.put("token", token);
+            map.put("msg", "token generated successful");
             map.put("status", "00");
             return map;
-        } catch (SignatureVerificationException e) {
-            e.printStackTrace();
-            map.put("msg", "invalid signature detected");
-        } catch (TokenExpiredException e) {
-            e.printStackTrace();
-            map.put("msg", "token is expired");
-        } catch (JWTDecodeException e) {
-            e.printStackTrace();
-            map.put("msg", "token is modified");
-        } catch (AlgorithmMismatchException e) {
-            e.printStackTrace();
-            map.put("msg", "algorithm mismatch");
         } catch (Exception e) {
             e.printStackTrace();
-            map.put("msg", "token verify failed");
         }
+        map.put("state", false);
+        map.put("msg", "token generation failed");
         map.put("status", "01");
         return map;
     }
 
-    @PostMapping("/token/verifybyheader")
+    @PostMapping("/token/verify")
     public Map<String, Object> verify(HttpServletRequest request) {
         String token = request.getHeader("token");
         log.info("Received Token: [{}]", token);
@@ -85,7 +85,7 @@ public class UserController {
             DecodedJWT decodedJWT = JWTUtils.verifyToken(token);
             map.put("state", true);
             map.put("name", decodedJWT.getClaim("name").asString());
-            map.put("msg", "token is OK");
+            map.put("msg", "token is good");
             map.put("status", "00");
             return map;
         } catch (SignatureVerificationException e) {
@@ -102,8 +102,41 @@ public class UserController {
             map.put("msg", "algorithm mismatch");
         } catch (Exception e) {
             e.printStackTrace();
-            map.put("msg", "token verify failed");
+            map.put("msg", "token verification failed");
         }
+        map.put("state", false);
+        map.put("status", "01");
+        return map;
+    }
+
+    @PostMapping("/token/verify/old")
+    public Map<String, Object> verifyOld(String token) {
+        log.info("Received Token: [{}]", token);
+        Map<String, Object> map = new HashMap<>();
+        try {
+            DecodedJWT decodedJWT = JWTUtils.verifyToken(token);
+            map.put("state", true);
+            map.put("name", decodedJWT.getClaim("name").asString());
+            map.put("msg", "token is good");
+            map.put("status", "00");
+            return map;
+        } catch (SignatureVerificationException e) {
+            e.printStackTrace();
+            map.put("msg", "invalid signature detected");
+        } catch (TokenExpiredException e) {
+            e.printStackTrace();
+            map.put("msg", "token is expired");
+        } catch (JWTDecodeException e) {
+            e.printStackTrace();
+            map.put("msg", "token is modified");
+        } catch (AlgorithmMismatchException e) {
+            e.printStackTrace();
+            map.put("msg", "algorithm mismatch");
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("msg", "token verification failed");
+        }
+        map.put("state", false);
         map.put("status", "01");
         return map;
     }
