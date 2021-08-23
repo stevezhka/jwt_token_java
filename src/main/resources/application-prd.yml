@@ -1,0 +1,19 @@
+server:
+  port: 8989
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/jwt?useSSL=false
+    username: jwtuser
+    password: jaaaaaaa1
+
+logging:
+  level:
+    com:
+      auth:
+        dao: warn
+
+auth:
+  jwt:
+    SIGNATURE: sgka!7@^#rfdWWidfdfdsjjiiojfweddfdkljfie792888df793ffds*(*90su

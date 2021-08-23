@@ -1,0 +1,17 @@
+server:
+  port: 8989
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+  mvc:
+    view:
+     prefix: /WEB-INF/jsp/
+     suffix: .jsp
+
+mybatis:
+  type-aliases-package: com.auth.entity
+  mapper-locations: classpath:com/auth/mapper/*.xml
+

@@ -4,7 +4,7 @@
 
     <!--check user info-->
     <select id="login" parameterType="User" resultType="User">
-        select * from user where name=#{name} and password=#{password}
+        select * from jwtschema.user where name=#{name} and password=#{password}
     </select>
 
 </mapper>

@@ -1,0 +1,23 @@
+server:
+  port: 8989
+
+spring:
+  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/jwt?characterEncoding=UTF-8&useSSL=true
+#    username: root
+#    password: maaaaaaa1
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/jwt?useSSL=false
+    username: jwtuser
+    password: jaaaaaaa1
+
+logging:
+  level:
+    com:
+      auth:
+        dao: debug
+
+auth:
+  jwt:
+    SIGNATURE: sgka!7@^#rfdWWidfdfdsjjiiojfweddfdkljfie792888df793ffds*(*90su
