@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/jwt?useSSL=false
+    url: jdbc:postgresql://35.72.44.113:5432/jwt?useSSL=false
     username: jwtuser
-    password: jaaaaaaa1
+    password: kjaaaaaaa1
 
 logging:
   level:
