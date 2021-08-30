@@ -1,5 +1,7 @@
 server:
   port: 8989
+  tomcat:
+    basedir: /workapp/tomcat/
 
 spring:
   profiles:

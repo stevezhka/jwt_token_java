@@ -1,10 +1,11 @@
 server:
-  port: 8080
+  port: 8989
 
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://35.72.44.113:5432/jwt?useSSL=false
+#    url: jdbc:postgresql://35.72.44.113:5432/jwt?useSSL=false
+    url: jdbc:postgresql://10.0.0.5:5432/jwt?useSSL=false
     username: jwtuser
     password: kjaaaaaaa1
 
